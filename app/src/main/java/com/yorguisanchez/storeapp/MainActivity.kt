@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.yorguisanchez.storeapp.ui.theme.StoreAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +23,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             StoreAppTheme {
 
+                val myNavController = rememberNavController()
+                val myStartDestination: String = "Login"
 
+                NavHost(
+                    navController = myNavController,
+                    startDestination = myStartDestination,
+                ) {
+                    composable(route = "login") {
+                        LoginScreen(myNavController)
+                    }
+                    composable(route = "Register") {
+                        RegisterScreen()
+                    }
+                }
             }
         }
     }
