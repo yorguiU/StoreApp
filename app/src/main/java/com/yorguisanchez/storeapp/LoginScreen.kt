@@ -16,11 +16,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-
+import androidx.navigation.NavController
 
 @Composable
-fun LoginScreen(myNavController: NavHostController) {
+fun LoginScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +74,7 @@ fun LoginScreen(myNavController: NavHostController) {
 
         Button(
             onClick = {
-                myNavController.navigate("Home")
+                navController.navigate(route = "Home")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -90,9 +89,10 @@ fun LoginScreen(myNavController: NavHostController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         TextButton(onClick = {
-            myNavController.navigate("register")
+            navController.navigate(route = "Register")
         }) {
-            Text("¿No tienes cuenta? Regístrate",
+            Text(
+                "¿No tienes cuenta? Regístrate",
                 color = Color(color = (0xFFFF9800))
             )
         }
