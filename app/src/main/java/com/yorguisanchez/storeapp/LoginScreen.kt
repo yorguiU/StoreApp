@@ -1,5 +1,7 @@
 package com.yorguisanchez.storeapp
 
+import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -8,18 +10,34 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @Composable
 fun LoginScreen(navController: NavController) {
+
+    //ESTADOS
+    //var ImputEmail = "ysanchez192@unab.edu.co"
+    var inputEmail by remember { mutableStateOf(value = "") }
+    var inputPassword by remember { mutableStateOf(value = "") }
+
+    val activity = LocalView.current.context as Activity
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,8 +66,8 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(32.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = inputEmail,
+            onValueChange = { inputEmail = it },
             label = { Text("Correo Electrónico") },
             leadingIcon = {
                 Icon(imageVector = Icons.Default.Email, contentDescription = "Correo")
@@ -60,8 +78,8 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = inputPassword,
+            onValueChange = { inputPassword = it },
             label = { Text("Contraseña") },
             leadingIcon = {
                 Icon(imageVector = Icons.Default.Lock, contentDescription = "Contraseña")
@@ -74,7 +92,24 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                navController.navigate(route = "Home")
+
+                val auth = Firebase.auth
+
+
+                auth.signInWithEmailAndPassword(inputEmail, inputPassword)
+                    .addOnCompleteListener(activity) { task ->
+                        if (task.isSuccessful) {
+                            navController.navigate("Home")
+
+                        } else {
+                            Toast.makeText(
+                                activity.applicationContext,
+                                "Error en credencialwa",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    }
             },
             modifier = Modifier
                 .fillMaxWidth()
