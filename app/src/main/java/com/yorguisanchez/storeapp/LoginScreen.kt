@@ -93,22 +93,31 @@ fun LoginScreen(navController: NavController) {
         Button(
             onClick = {
 
+                val (isEmailValid, emailError) = ValidateEmail(inputEmail)
+                val (isPasswordValid, passwordError) = ValidatePassword(inputPassword)
+
+                if (!isEmailValid) {
+                    Toast.makeText(activity.applicationContext, emailError, Toast.LENGTH_LONG).show()
+                    return@Button
+                }
+
+                if (!isPasswordValid) {
+                    Toast.makeText(activity.applicationContext, passwordError, Toast.LENGTH_LONG).show()
+                    return@Button
+                }
+
                 val auth = Firebase.auth
-
-
                 auth.signInWithEmailAndPassword(inputEmail, inputPassword)
                     .addOnCompleteListener(activity) { task ->
                         if (task.isSuccessful) {
-                            navController.navigate("Home")
-
+                            navController.navigate(route = "Home")
                         } else {
                             Toast.makeText(
                                 activity.applicationContext,
-                                "Error en credencialwa",
+                                "Error en las credenciales",
                                 Toast.LENGTH_LONG
                             ).show()
                         }
-
                     }
             },
             modifier = Modifier

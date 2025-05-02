@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.yorguisanchez.storeapp.ui.theme.StoreAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +19,16 @@ class MainActivity : ComponentActivity() {
             StoreAppTheme {
 
                 val myNavController = rememberNavController()
-                val myStartDestination: String = "Login"
+                var myStartDestination: String = "Login"
+
+                val auth = Firebase.auth
+                val currentUser = auth.currentUser
+
+                if(currentUser != null){
+                    myStartDestination = "Home"
+                }else{
+                    myStartDestination = "login"
+                }
 
                 NavHost(
                     navController = myNavController,
