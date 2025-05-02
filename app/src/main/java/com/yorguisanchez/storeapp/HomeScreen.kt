@@ -33,12 +33,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil3.compose.rememberAsyncImagePainter
 import java.net.URL
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -64,7 +65,10 @@ fun HomeScreen() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = {
+                        navController.navigate("login")
+
+                    }) {
                         Icon(
                             imageVector = Icons.Default.ExitToApp,
                             contentDescription = null
@@ -108,11 +112,10 @@ fun HomeScreen() {
 
 }
 
-@Preview
-@Composable
 
-fun HomeScreenPreview() {
-    HomeScreen()
+@Composable
+fun HomeScreenPreview(navController: NavController) {
+    navController.navigate("Home")
 
 
 }

@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                         RegisterScreen(myNavController)
                     }
                     composable(route = "Home") {
-                        HomeScreen()
+                        HomeScreen(myNavController)
                     }
                 }
             }
